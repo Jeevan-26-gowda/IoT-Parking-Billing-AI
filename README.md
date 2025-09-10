@@ -1,0 +1,2 @@
+# IoT-Parking-Billing-AI
+IoT-Driven Smart Parking and Automated Billing System with AI Conversational Assistance is a project that integrates IoT sensors, cloud-based billing, and AI-powered chatbot support. It enables real-time parking slot detection, automated QR-based payment, and user-friendly interaction through a smart dashboard. The system ensures efficient space utilization, reduced human intervention, and a seamless parking experience.
