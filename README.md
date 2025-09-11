@@ -1,53 +1,104 @@
-Project Overview
+Title:
+IoT-Driven Smart Parking & Automated Billing System with AI Assistance
 
-The IoT-Driven Smart Parking and Automated Billing System leverages IoT sensors, microcontrollers, and AI to provide a seamless parking experience. Users can find available parking spaces in real-time, and automated billing ensures hassle-free payments. An AI conversational assistant allows intuitive interactions, providing information about parking availability, billing, and more.
+Overview:
+This project is designed to solve urban parking problems by integrating IoT sensors, a cloud-based backend, an AI-powered chatbot, and an automated billing system.
+It allows users to find available parking slots, book them, pay automatically, and get help from a chatbot.
 
-Features
+Features:
 
-Real-time parking slot detection using IoT sensors
+Real-time parking detection (Green = Free, Red = Occupied)
 
-Automated billing based on parking duration
+Slot booking with confirmation
 
-AI-powered conversational assistant for user queries
+Automated time-based billing with Razorpay integration
 
-Web/mobile interface for monitoring and management
+AI chatbot to check availability, guide booking, and show payment details
 
-Notifications for slot availability
+Admin dashboard to monitor parking status, revenue, and IoT devices
 
-System Architecture
+Project Structure:
 
-IoT Layer: Sensors detect vehicle presence and relay data to microcontroller.
+Back-End: Node.js + Express + Firebase backend code
 
-Edge/Controller Layer: Microcontroller processes sensor data and communicates with cloud/server.
+Front-End: React.js dashboard with Tailwind CSS
 
-Cloud/Server Layer: Stores parking data, handles billing, and communicates with AI assistant.
+IoT-Code: ESP32 / Arduino parking sensor firmware
 
-User Interface: Web/mobile dashboard for monitoring and user interactions.
+ChatBot: Dialogflow or GPT-powered chatbot configuration
 
-AI Layer: Conversational assistant processes user queries and provides responses.
+Docs: System architecture, flowcharts, and screenshots
 
-(Optional: Include a diagram here to visually represent the architecture)
+Tech Stack:
 
-Hardware Requirements
+Frontend: React.js, Tailwind CSS
 
-Arduino / ESP32 / Raspberry Pi
+Backend: Node.js, Express, Firebase
 
-Ultrasonic / IR sensors for parking detection
+IoT: ESP32, Ultrasonic Sensors
 
-Wi-Fi / Bluetooth module
+Chatbot: Dialogflow / GPT API
 
-Power supply
+Payments: Razorpay or Paytm
 
-LCD/LED display (optional)
+How to Run:
 
-Software Requirements
+Clone the repository using
+git clone <repo-link>
 
-Python 3.x
+Go into the folder using
+cd Iot-Parking_Billing
 
-Arduino IDE
+Setup backend:
 
-Node.js (if web interface is used)
+Run npm init -y
 
-MySQL / Firebase / MongoDB (for backend database)
+Install required packages (npm install express cors firebase-admin)
 
-Libraries: Flask, Requests, OpenAI API (for AI integration), etc.
+Run node server.js
+
+Setup frontend:
+
+Use npx create-react-app dashboard inside Front-End folder
+
+Install required packages (npm install axios react-router-dom)
+
+Run frontend using npm start
+
+Demo Flow:
+
+Open the app to see parking layout
+
+Chatbot shows available slots when asked
+
+User selects a slot and books it
+
+Billing starts automatically
+
+When user exits, app shows amount due → pay via Razorpay → slot becomes free
+
+Team Roles:
+
+IoT Engineer: Sensor setup and programming
+
+Backend Developer: API creation and database integration
+
+UI Developer: Dashboard, booking flow, and chatbot widget
+
+AI Specialist: Chatbot training and natural language processing setup
+
+License:
+MIT License (free to use and modify).
+
+Contribution:
+
+Fork the repo
+
+Create a feature branch
+
+Commit your changes
+
+Submit a pull request
+
+Support:
+If you like this project, star it on GitHub.
