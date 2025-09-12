@@ -1,4 +1,4 @@
-// src/components/ParkingSlot.tsx
+// src/app/components/ParkingSlot.tsx
 import { MapPinIcon } from '@heroicons/react/24/outline';
 
 // Define the shape of the data for a single slot
@@ -28,7 +28,11 @@ export default function ParkingSlot({ slot, onClick }: ParkingSlotProps) {
   return (
     <div 
       className={`${baseClasses} ${statusClasses}`} 
-      onClick={() => isAvailable && onClick(slot)}
+      onClick={() => {
+        if (isAvailable) {
+          onClick(slot);
+        }
+      }}
     >
       <MapPinIcon className="icon-size mb-2" />
       <span>{slot.id}</span>
