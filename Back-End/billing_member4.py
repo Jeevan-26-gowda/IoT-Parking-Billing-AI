@@ -1,57 +1,51 @@
-import datetime
-import pytz
+# billing_member4.py
+import asyncio
+from datetime import datetime
 from telegram import Bot
 
-# ------------------ CONFIG ------------------
-TELEGRAM_TOKEN = "YOUR_BOT_TOKEN_HERE"  # Replace with your bot token
-CHAT_ID = "YOUR_CHAT_ID_HERE"           # Replace with your numeric Telegram ID
-PRICE_PER_HOUR = 10                      # ₹10 per hour
+# ---------------- CONFIG ----------------
+TELEGRAM_TOKEN = "7802179029:AAG719GDn35vTZvobCzO2W-0SVlNLw2d6dU"
+CHAT_ID = "5564840058"
+RATE_PER_HOUR = 10  # 10 rupees per hour
 
 bot = Bot(token=TELEGRAM_TOKEN)
 
-# ------------------ BILLING FUNCTION ------------------
-def calculate_bill(entry_time, exit_time):
-    duration = exit_time - entry_time
-    total_minutes = duration.total_seconds() / 60
-    hours = total_minutes / 60
-    # Minimum 1 hour charge
-    amount = int((hours if hours > 1 else 1) * PRICE_PER_HOUR)
-    return duration, amount
+async def send_bill(name, phone, car_number, entry_time, exit_time):
+    """
+    Sends a bill via Telegram with UPI payment link
+    """
+    # Calculate parking duration in hours (rounded up)
+    duration_seconds = (exit_time - entry_time).total_seconds()
+    duration_hours = max(1, int(duration_seconds // 3600) + (1 if duration_seconds % 3600 > 0 else 0))
+    amount = duration_hours * RATE_PER_HOUR
 
-# ------------------ SEND BILL ------------------
-def send_bill(name, phone, car_plate, entry_time, exit_time):
-    duration, amount = calculate_bill(entry_time, exit_time)
+    # Format UPI link (replace YOURUPIID with your UPI ID)
+    upi_link = f"upi://pay?pa=6361698991@ybl={name}&am={amount}&cu=INR"
+
+    # Prepare message
+    message = f"""*Suraksha Parking Bill*
     
-    message = f"""
-🚗 *Suraksha Smart Parking*
+*Name:* {name}
+*Phone:* {phone}
+*Car Number:* {car_number}
+*Entry Time:* {entry_time.strftime('%d-%m-%Y %H:%M:%S')}
+*Exit Time:* {exit_time.strftime('%d-%m-%Y %H:%M:%S')}
+*Duration:* {duration_hours} hour(s)
+*Amount:* ₹{amount}
 
-👤 Name: {name}
-📞 Phone: {phone}
-🚘 Car: {car_plate}
-
-🕒 Entry: {entry_time.strftime("%Y-%m-%d %H:%M:%S")}
-🕒 Exit: {exit_time.strftime("%Y-%m-%d %H:%M:%S")}
-⏳ Duration: {str(duration).split('.')[0]}
-
-💰 Total Amount: ₹{amount}
-
-✅ Pay via UPI: `upi://pay?pa=parking@upi&pn=SurakshaParking&am={amount}`
+Click here to pay: [Pay via UPI]({upi_link})
 """
-    bot.send_message(chat_id=CHAT_ID, text=message, parse_mode="Markdown")
+
+    await bot.send_message(chat_id=CHAT_ID, text=message, parse_mode="Markdown")
     print("✅ Bill sent via Telegram!")
 
-# ------------------ TEST ------------------
+# ---------------- DEMO / TEST ----------------
 if __name__ == "__main__":
-    tz = pytz.timezone("Asia/Kolkata")
-    
-    # Dummy test data
-    entry_time = datetime.datetime(2025, 9, 17, 10, 30, tzinfo=tz)
-    exit_time = datetime.datetime(2025, 9, 17, 12, 45, tzinfo=tz)
-    
-    send_bill(
-        name="Jeevan",
-        phone="9876543210",
-        car_plate="KA01AB1234",
-        entry_time=entry_time,
-        exit_time=exit_time
-    )
+    # Sample data
+    name = "Jeevan"
+    phone = "6361698991"
+    car_number = "KA41S8055"
+    entry_time = datetime.now().replace(hour=10, minute=0, second=0)
+    exit_time = datetime.now().replace(hour=12, minute=30, second=0)
+
+    asyncio.run(send_bill(name, phone, car_number, entry_time, exit_time))
